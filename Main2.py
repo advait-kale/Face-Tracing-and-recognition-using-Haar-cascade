@@ -8,7 +8,7 @@ face_cascade = cv2.CascadeClassifier(
 )
 
 def input_name():
-    return input("Enter name: ")
+    return input("Enter name: ").strip()
 
 name = input_name()
 
@@ -51,6 +51,7 @@ def analyse_img():
     print("Analysing Image...")
     cap = cv2.VideoCapture(0)
 
+    analysis_complete = False
     while True:
         ret, img = cap.read()
         if not ret:
@@ -88,16 +89,21 @@ def analyse_img():
 
             if not matched:
                 print("❌ Unknown face detected")
+            else:
+                analysis_complete = True
+                break # Exit the loop over detected faces
 
         cv2.imshow("Analyse", img)
-        if cv2.waitKey(30) & 0xff == 27:
+        # Exit if 'ESC' is pressed or if a match was found
+        if (cv2.waitKey(30) & 0xff == 27) or analysis_complete:
             break
 
     cap.release()
     cv2.destroyAllWindows()
+    print("Analysis finished.")
 
 def main():
-    choice = input("Enter 1 to capture new images, 2 to analyse: ")
+    choice = input("Enter 1 to capture new images, 2 to analyse: ").strip()
     if choice == "1":
         if take_images():
             time.sleep(1)
