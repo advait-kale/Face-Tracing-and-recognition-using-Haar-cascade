@@ -10,8 +10,6 @@ face_cascade = cv2.CascadeClassifier(
 def input_name():
     return input("Enter name: ")
 
-name = input_name()
-
 cap = cv2.VideoCapture(0)
 base_dir = r"C:\Advait\VS_Code\VS code 2.0\Face recognition\Images"
 known_dir = os.path.join(base_dir, "known", name)
@@ -99,6 +97,7 @@ def analyse_img():
 def main():
     choice = input("Enter 1 to capture new images, 2 to analyse: ")
     if choice == "1":
+        name = input_name()
         if take_images():
             time.sleep(1)
             analyse_img()
